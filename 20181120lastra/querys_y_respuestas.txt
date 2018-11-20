@@ -1,0 +1,36 @@
+CREATE DATABASE Colegio;
+
+
+CREATE TABLE IF NOT EXISTS Alumnos (
+    documento int(1) NOT NULL,
+    nombre varchar(10) NOT NULL,
+    apellido varchar(10) NOT NULL,
+    promedio_aprobado tinyint(1),
+    amonestaciones tinyint(1),
+    PRIMARY KEY(documento)    
+    );
+
+CREATE TABLE IF NOT EXISTS Materias (
+    materia varchar(10) NOT NULL,
+    documento_alumno int(1),
+    nota_alumno tinyint(1)       
+    );
+    
+
+   Preguntas:
+
+   1) la variables en javascript se declaran poniendo primero la palabra reservada var y luego la variable seguido de ";", quedaria algo asi: var myvar;
+
+   2) los tags son las separaciones de los bloques que tiene un html se utilizan poniendo un "menor que"(<) al comienzo con el tag que se desea utilizar dentro se cierra con un "mayor que"(>) luego las funciones a realizar en ese tag y luego se cierra de la siguiente forma </tag> (esto puede variar segun el tipo de tag que util algunos se abren y cierran en el comienzo)
+
+   3) CSS se utiliza para dar estilos al html, estos pueden ser colores formas, botones, etc.
+
+   4) Los metodos de envio de un formulario son get y post
+
+   5)los metodos se utilizan para variar la forma en que se envian los datos en el metodo get se mandan los datos a traves de la url, en el metodo post se mandan insertados a traves del documento html
+
+   6) Un web server es una forma de enviar nuestra pagina al mundo (o a nuestra red local) para que se pueda ver los contenidos de esta. Como la palabra lo  dice "server" es un servidor que nos trae datos y los convierte en una pagina web ;
+
+
+
+Comentarios sobre la aplicacion:en el menu solo anda insertar usuario e insertar materia por el momento, me hubiera gustado crear muchas mas opciones, lamentablemente me perdi intentando crear una query que no me anduvo y no diseñe bien como iban a ser las tablas.
