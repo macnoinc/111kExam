@@ -1,0 +1,54 @@
+
+
+-----------CREACION DE BASE DE DATOS DEL EXAMEN;
+
+create database examen;
+
+
+
+
+---------------GENERANDO NUEVA TABLA  'alumnos';
+
+
+CREATE TABLE alumnos(
+id_alumno tinyint(8) unsigned AUTO_INCREMENT NOT NULL PRIMARY KEY,
+nombre varchar(20)NOT NULL,
+apellido varchar(20)NOT NULL,
+amonestacion INT(30)NOT NULL);
+
+
+-----------CARGANDO ALUMNOS A LA TABLA alumnos;
+
+INSERT INTO alumnos VALUES (1,'juan','veron',  2);
+INSERT INTO alumnos VALUES (2,'matias','zulberti',3);
+INSERT INTO alumnos VALUES (3,'celeste','gasparini', 10);
+INSERT INTO alumnos VALUES (4,'juan','lastra', 12);
+INSERT INTO alumnos VALUES (5,'victoria','algo', 0);
+INSERT INTO alumnos VALUES (6,'diego','maradona', 0);
+INSERT INTO alumnos VALUES (7,'pepita','pistolera', 25);
+INSERT INTO alumnos VALUES (8,'pedro','garcia',24);
+INSERT INTO alumnos VALUES (9,'martin','martens', 22);
+INSERT INTO alumnos VALUES (10,'nicolas','fernandez', 1);
+INSERT INTO alumnos VALUES (11,'nicolas','maradona',2);
+
+
+
+------------------CREANDO TABLA materia;
+
+CREATE TABLE materias(
+id_materia tinyint(8) unsigned PRIMARY KEY NOT NULL ,
+nombre_asignatura varchar(20)NOT NULL,
+calificacion tinyint(8) NOT NULL,
+FOREIGN KEY (id_materia)
+REFERENCES alumnos(id_alumno));
+
+
+------CARGANDO VALORES A LA TABLA materias;
+
+
+INSERT INTO materias VALUES(1,'sociologia',9);
+INSERT INTO materias VALUES(2,'literatura',6);
+INSERT INTO materias VALUES(3,'ingles',10);
+INSERT INTO materias VALUES(4,'matematica',3);
+INSERT INTO materias VALUES(5,'historia',3);
+INSERT INTO materias VALUES(6,'filosofia',8);
