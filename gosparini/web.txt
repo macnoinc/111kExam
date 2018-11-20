@@ -1,0 +1,12 @@
+1) La variable en Js de seclara como :
+var nommre de variable;
+
+2) Un tag en thml es una etiqueta que foma par de  la syntasis del mismo estas tiene aciones y funciona por si misma ej: <img> es un tag que nos permite inserta imagenes.
+
+3) El CSS es una la hoja de estilo lo que le dara el toco de color a la paguina, alli se designa colore de letras , fuentes , etc los que dara el diseño mas grafico a la pagina. 
+
+4) Los metodos del formulario es GET y POST.
+
+5) El get no obtendra datos que estan cargados y el post enviadatod a cargar; 
+
+6) la web server el la aplicacion que conecta el cliente y al serbidor, atraves de consultas,
