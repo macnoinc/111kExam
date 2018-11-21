@@ -1,61 +1,77 @@
 #!/usr/bin/perl
-use lib '/home/user111m/20181120-Hamad';
+use lib '/home/user111m/111kExam/20181120-Hamad';
 use Alumnos;
 use Materias;
 use Alumnos_Materias;
 use strict;
 
-print "AAAA";
+my $alum = Alumnos->new();
+my $subject = Materias->new();
+my $alum_subject = Alumnos_Materias->new();
+my $op;
 menu();
 
 
 sub menu {
 
+
 	print "Bienvenido\n";
-	print "\nSelecciona lo que desea hacer\n";
-	add_student();
+	do {
 
-	print "\nBien!\n";
-	add_subject();
+		sleep 2;
+		print "\nSeleccione lo que desea hacer\n";
 
-	print "\nOtra más!\n";
-	add_subject();
+		print "\n[1] Agregar estudiante\n";
+		print "\n[2] Agregar materia\n";
+		print "\n[3] Víncular estudiante con materia\n";
+		print "\n[4] Agregar nota a estudiante\n";
+		print "\n[5] Agregar amonestación a estudiante\n";
+		print "\n[6] Informes\n";
+		print "\n[0] Salir";
+		print "\n";
 
-	print "\nCorrecto!\n";
-	student_subject();
-
-	print "\nAgrega la otra materia\n";
-	student_subject();
-
-	print "\nAgrega una nota al alumno\n";
-	add_grade();
-
-	print "\nAgrega una amonestación\n";
-	add_amonestacion();
-
-	print "\nInforme de alumno\n";
-	informes();
+		$op = <STDIN>;
+		chomp $op;
+		if ($op == 1) {
+			add_student();
+		}elsif ($op == 2){
+			add_subject();
+		}elsif ($op == 3){
+			student_subject();
+		}elsif ($op == 4){
+			add_grade();
+		}elsif ($op ==5){
+			add_amonestacion();
+		}elsif ($op == 6){
+			informes();
+		}elsif ($op == 0){
+			print "Adios!";
+			sleep 2;
+		}else{
+			print "Opción incorrecta";
+		}
+	}while ($op != 0)
 }
 
 sub add_student {
-	print "Agregar alumno!\n";
+	print "Agregar alumno\n";
 	print "\n\tnombre:";
 	my $name = <STDIN>;
-	print "\n\tapellido:"
+	print "\n\tapellido:";
 	my $surname = <STDIN>;
 
 	chomp($name);
 	chomp($surname);
 
-	Alumnos::add($name,$surname);
+	$alum->add($name,$surname);
 }
 
 sub add_subject {
 	print "Agrega una materia\n";
-	print "\n\tnombre:"
+	print "\n\tnombre:";
 	my $name = <STDIN>;
 	chomp($name);
-	Materias::add($name);
+	$subject->add($name);
 }
 
 sub student_subject {
@@ -63,27 +79,27 @@ sub student_subject {
 	
 	my $stud_id = get_stud_id();
 	my $subject_id = get_subject_id();
-	Alumnos_Materias::add($stud_id, $subject_id);
+	$alum_subject->add($stud_id, $subject_id);
 }
 
 sub get_stud_id {
-	print "\n\tIngresa nombre del alumno";
+	print "\n\tIngresa nombre del alumno: ";
 	my $stud_name = <STDIN>;
 	chomp($stud_name);
-	print "\n\t Ingresa apellido del alumno";
+	print "\n\t Ingresa apellido del alumno: ";
 	my $stud_surname = <STDIN>;
 	chomp($stud_surname);
 
-	return Alumnos::get_id($stud_name,$stud_surname);
+	return $alum->get_id($stud_name,$stud_surname);
 
 }
 
 sub get_subject_id {
-	print "\n\tIngresa el nombre de la materia:";
+	print "\n\tIngresa el nombre de la materia: ";
 	my $subject_name = <STDIN>;
 	chomp($subject_name);
 
-	return Materias::get_id($subject_name);
+	return $subject->get_id($subject_name);
 
 }
 
@@ -93,22 +109,22 @@ sub add_grade {
 	my $stud_id = get_stud_id();
 	my $subject_id = get_subject_id();
 
-	print "\n\tIngresa la nota obtenida";
+	print "\n\tIngresa la nota obtenida: ";
 	my $grade = <STDIN>;
 	chomp($grade);
 
-	Alumnos_Materias::add_grade($stud_id, $subject_id, $grade);
+	$alum_subject->add_grade($stud_id, $subject_id, $grade);
 }
 
 sub add_amonestacion {
 	print "Agregar una amonestación\n";
 	my $stud_id = get_stud_id();
 
-	print "\n\tIngresa cantidad de amonestaciones";
+	print "\n\tIngresa cantidad de amonestaciones: ";
 	my $amonestaciones = <STDIN>;
 	chomp($amonestaciones);
 
-	Alumnos::add_amonestacion($stud_id, $amonestaciones);
+	$alum->add_amonestacion($stud_id, $amonestaciones);
 }
 
 
@@ -118,34 +134,13 @@ sub add_amonestacion {
 
 
 
-sub show_promedio {
-	my $listado = Alumnos::getlistado();
-	my $data;
-	my $prom_data;
-
-	print "\nInforme de todos los alumnos\n";
-	foreach my $id = (%{$listado}) {
-		$subject_data = Alumnos_Materias::get_ind_data($id);
-		$prom_data = Alumnos_Materias::get_individual_prom($id)
-
-		print $listado->{$id}->{name} . " " . $listado->{$id}->{surname};
-		print "\n--------------------\n";
-
-		foreach my $id_sub (%{$subject_data}) {
-			print Materias::get_name($subject_data->{$id}->{subject_id};
-			print ": " . $subject_data->{$id}->{grade} . "\n";
-		}
-		print "\t + Promedio general: " . ($prom_data->{prom}/$prom_data->{numb_subjects}) . "\n";
-		print "\t + Amonestaciones: " . Alumnos::get_amonestaciones($id) . "\n";
-	}
-}
 
 sub informes {
 	print "Informes:\n";
 	print "-------------------------------\n";
 	print "\n\t[0] Para ver todos";
 	print "\n\t[1] Para ver promovidos";
-	print "\n\t[2] Para ver no promovidos";
+	print "\n\t[2] Para ver no promovidos\n";
 	my $op = <STDIN>;
 	chomp($op);
 
@@ -159,55 +154,84 @@ sub informes {
 }
 
 sub show_promovidos {
-	my $listado = Alumnos::getlistado();
+	my $listado = $alum->get_listado();
 	my $data;
 	my $prom_data;
+	my $subject_data;
 
-	print "\nPromovidos\n";
-	foreach my $id = (%{$listado}) {
-		$subject_data = Alumnos_Materias::get_ind_data($id);
-		$prom_data = Alumnos_Materias::get_individual_prom($id)
+	print "\nPromovidos\n\n";
+	foreach my $id (keys %{$listado}) {
+		$subject_data = $alum_subject->get_ind_data($id);
+		$prom_data = $alum_subject->get_individual_prom($id);
 
 
-		if (($prom_data->{prom} / $prom_data->{numb_subjects}) >= (15/2) && Alumnos::get_amonestaciones($id)<25) {
+		if (($prom_data->{$id}->{prom} / $prom_data->{$id}->{numb_subjects}) >= (15/2) && $alum->get_amonestaciones($id)<25) {
 
 			print $listado->{$id}->{name} . " " . $listado->{$id}->{surname};
 			print "\n--------------------\n";
 
 			foreach my $id_sub (%{$subject_data}) {
-				print Materias::get_name($subject_data->{$id}->{subject_id};
-				print ": " . $subject_data->{$id}->{grade} . "\n";
+				print $subject->get_name($subject_data->{$id_sub}->{subject_id});
+				print ": " . $subject_data->{$id_sub}->{grade} . "\n";
 			}
 
-			print "\t + Promedio general: " . ($prom_data->{prom} / $prom_data->{numb_subjects}) . "\n";
-			print "\t + Amonestaciones: " . Alumnos::get_amonestaciones($id) . "\n";
+			print "\t + Promedio general: " . ($prom_data->{$id}->{prom} / $prom_data->{$id}->{numb_subjects}) . "\n";
+			print "\t + Amonestaciones: " . $alum->get_amonestaciones($id) . "\n";
 		}
 	}
 }
 
 sub show_no_promovidos {
-	my $listado = Alumnos::getlistado();
+	my $listado = $alum->get_listado();
 	my $data;
 	my $prom_data;
+	my $subject_data;
 
-	print "\nNo promovidos\n";
-	foreach my $id = (%{$listado}) {
-		$subject_data = Alumnos_Materias::get_ind_data($id);
-		$prom_data = Alumnos_Materias::get_individual_prom($id)
+	print "\nNo promovidos\n\n";
+	foreach my $id (keys %{$listado}) {
+		$subject_data = $alum_subject->get_ind_data($id);
+		$prom_data = $alum_subject->get_individual_prom($id);
 
 
-		if (($prom_data->{prom} / $prom_data->{numb_subjects}) < (15/2) || Alumnos::get_amonestaciones($id)>25) {
+		if (($prom_data->{$id}->{prom} / $prom_data->{$id}->{numb_subjects}) < (15/2) || $alum->get_amonestaciones($id)>25) {
 
 			print $listado->{$id}->{name} . " " . $listado->{$id}->{surname};
 			print "\n--------------------\n";
 
 			foreach my $id_sub (%{$subject_data}) {
-				print Materias::get_name($subject_data->{$id}->{subject_id};
-				print ": " . $subject_data->{$id}->{grade} . "\n";
+				print $subject->get_name($subject_data->{$id_sub}->{subject_id});
+				print ": " . $subject_data->{$id_sub}->{grade} . "\n";
 			}
 
-			print "\t + Promedio general: " . ($prom_data->{prom} / $prom_data->{numb_subjects}) . "\n";
-			print "\t + Amonestaciones: " . Alumnos::get_amonestaciones($id) . "\n";
+			print "\t + Promedio general: " . ($prom_data->{$id}->{prom} / $prom_data->{$id}->{numb_subjects}) . "\n";
+			print "\t + Amonestaciones: " . $alum->get_amonestaciones($id) . "\n";
 		}
+	}
+}
+
+
+sub show_promedio {
+	my $listado = $alum->get_listado();
+	my $data;
+	my $prom_data;
+	my $subject_data;
+
+
+	print "\nInforme de todos los alumnos\n\n";
+	foreach my $id (keys %{$listado}) {
+		$subject_data = $alum_subject->get_ind_data($id);
+		$prom_data = $alum_subject->get_individual_prom($id);
+
+
+		print $listado->{$id}->{name} . " " . $listado->{$id}->{surname};
+		print "\n--------------------\n";
+
+		foreach my $id_sub (%{$subject_data}) {
+			print $subject->get_name($subject_data->{$id_sub}->{subject_id}) . ": ";
+			#print $subject->get_name($subject_data->{$id_sub}->{subject_id}) .": ". $subject_data->{$id_sub}->{grade} . "\n";
+			print $subject_data->{$id_sub}->{grade} . "\n";
+		}
+		print "\t + Promedio general: " . ($prom_data->{$id}->{prom} / $prom_data->{$id}->{numb_subjects}) . "\n";
+		print "\t + Amonestaciones: " . $alum->get_amonestaciones($id) . "\n";
 	}
 }
